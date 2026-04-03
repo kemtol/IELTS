@@ -1,0 +1,8 @@
+name = "ielts-core"
+main = "src/index.js"
+compatibility_date = "2026-04-03"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ielts-core"
+database_id = "fdb48c1a-9bb2-498a-b482-d816db0c0ec7"

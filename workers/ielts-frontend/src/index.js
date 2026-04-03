@@ -61,6 +61,263 @@ function toggleSkill(el) {
   el.classList.toggle('selected');
 }
 
+const PLACEMENT_API_BASE = window.PLACEMENT_API_BASE || 'https://ielts-core.mkemalw.workers.dev';
+const placementState = {
+  questions: [],
+  answers: {},
+  currentIndex: 0,
+  loading: false,
+  submitting: false,
+};
+
+function getPlacementElement(id) {
+  return document.getElementById(id);
+}
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function setPlacementStatus(message, tone = 'default') {
+  const statusEl = getPlacementElement('placementStatusText');
+  if (!statusEl) return;
+
+  statusEl.textContent = message || '';
+  if (tone === 'error') statusEl.style.color = 'var(--coral)';
+  else if (tone === 'success') statusEl.style.color = 'var(--teal)';
+  else if (tone === 'warn') statusEl.style.color = 'var(--amber)';
+  else statusEl.style.color = 'var(--text-secondary)';
+}
+
+function setPlacementButtonState(button, disabled) {
+  if (!button) return;
+  button.disabled = !!disabled;
+  button.style.opacity = disabled ? '0.55' : '1';
+  button.style.cursor = disabled ? 'not-allowed' : 'pointer';
+}
+
+function renderPlacementQuestion() {
+  const total = placementState.questions.length;
+  if (!total) return;
+
+  const current = placementState.questions[placementState.currentIndex];
+  if (!current) return;
+
+  const answeredCount = Object.keys(placementState.answers).length;
+  const unansweredCount = total - answeredCount;
+  const selected = placementState.answers[current.id] || null;
+
+  const progressCaption = getPlacementElement('placementProgressCaption');
+  const progressFill = getPlacementElement('placementProgressFill');
+  const answeredCaption = getPlacementElement('placementAnsweredCaption');
+  const answeredBadge = getPlacementElement('placementAnsweredBadge');
+  const questionMeta = getPlacementElement('placementQuestionMeta');
+  const passageCard = getPlacementElement('placementPassageCard');
+  const passageText = getPlacementElement('placementPassageText');
+  const questionText = getPlacementElement('placementQuestionText');
+  const optionList = getPlacementElement('placementOptionList');
+  const questionChips = getPlacementElement('placementQuestionChips');
+  const prevBtn = getPlacementElement('placementPrevBtn');
+  const nextBtn = getPlacementElement('placementNextBtn');
+  const submitBtn = getPlacementElement('placementSubmitBtn');
+
+  if (progressCaption) progressCaption.textContent = `${answeredCount} / ${total}`;
+  if (progressFill) {
+    const progressPercent = total ? Math.round((answeredCount / total) * 100) : 0;
+    progressFill.style.width = `${progressPercent}%`;
+  }
+  if (answeredCaption) answeredCaption.textContent = `${answeredCount} answered`;
+  if (answeredBadge) answeredBadge.textContent = `${answeredCount} of ${total}`;
+  if (questionMeta) questionMeta.textContent = `Question ${placementState.currentIndex + 1} of ${total} · ${current.section}`;
+  if (questionText) questionText.textContent = current.question;
+
+  if (passageCard && passageText) {
+    if (current.passage) {
+      passageText.textContent = `"${current.passage}"`;
+      passageCard.style.display = '';
+    } else {
+      passageText.textContent = '';
+      passageCard.style.display = 'none';
+    }
+  }
+
+  if (optionList) {
+    optionList.innerHTML = (current.options || [])
+      .map((option) => {
+        const isSelected = selected === option.id;
+        return `
+          <div class="option-item ${isSelected ? 'selected' : ''}" onclick="selectPlacementOption('${option.id}')">
+            <div class="option-circle">${escapeHtml(option.id)}</div>
+            ${escapeHtml(option.text)}
+          </div>
+        `;
+      })
+      .join('');
+  }
+
+  if (questionChips) {
+    questionChips.innerHTML = placementState.questions
+      .map((question, index) => {
+        const isCurrent = index === placementState.currentIndex;
+        const isAnswered = Boolean(placementState.answers[question.id]);
+        const background = isCurrent
+          ? 'var(--amber)'
+          : isAnswered
+            ? 'var(--teal)'
+            : 'rgba(255,255,255,0.12)';
+        const color = isCurrent || isAnswered ? 'white' : 'rgba(255,255,255,0.4)';
+
+        return `
+          <div style="width:28px;height:28px;border-radius:6px;background:${background};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:${color}">
+            ${index + 1}
+          </div>
+        `;
+      })
+      .join('');
+  }
+
+  if (prevBtn) setPlacementButtonState(prevBtn, placementState.currentIndex === 0 || placementState.loading);
+  if (nextBtn) {
+    nextBtn.textContent = placementState.currentIndex === total - 1 ? 'Last question' : 'Next question →';
+    setPlacementButtonState(nextBtn, placementState.currentIndex === total - 1 || placementState.loading);
+  }
+  if (submitBtn) {
+    submitBtn.textContent = `Submit test (${unansweredCount} unanswered)`;
+    setPlacementButtonState(submitBtn, placementState.loading || placementState.submitting);
+  }
+}
+
+async function initializePlacementTest() {
+  if (document.body?.dataset.page !== 'placement') return;
+  placementState.loading = true;
+  setPlacementStatus('Loading placement questions from IELTS Core...', 'default');
+
+  try {
+    const endpoint = `${PLACEMENT_API_BASE.replace(/\/$/, '')}/api/v1/placement/questions`;
+    const response = await fetch(endpoint, {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Questions API failed (${response.status})`);
+    }
+
+    const payload = await response.json();
+    if (!payload?.ok || !Array.isArray(payload.questions) || !payload.questions.length) {
+      throw new Error('Placement question bank is empty');
+    }
+
+    placementState.questions = payload.questions;
+    placementState.currentIndex = 0;
+    placementState.answers = {};
+    setPlacementStatus('Question bank loaded. Complete all questions, then submit.', 'default');
+    renderPlacementQuestion();
+  } catch (error) {
+    console.error('Failed to initialize placement test:', error);
+    setPlacementStatus('Failed to load question bank. Please refresh and try again.', 'error');
+
+    const questionMeta = getPlacementElement('placementQuestionMeta');
+    const questionText = getPlacementElement('placementQuestionText');
+    const optionList = getPlacementElement('placementOptionList');
+    if (questionMeta) questionMeta.textContent = 'Question bank unavailable';
+    if (questionText) questionText.textContent = 'We could not fetch placement questions from IELTS Core.';
+    if (optionList) optionList.innerHTML = '';
+  } finally {
+    placementState.loading = false;
+    renderPlacementQuestion();
+  }
+}
+
+function selectPlacementOption(optionId) {
+  const current = placementState.questions[placementState.currentIndex];
+  if (!current || placementState.loading) return;
+
+  placementState.answers[current.id] = optionId;
+  setPlacementStatus('', 'default');
+  renderPlacementQuestion();
+}
+
+function nextPlacementQuestion() {
+  if (!placementState.questions.length || placementState.loading) return;
+  if (placementState.currentIndex >= placementState.questions.length - 1) return;
+
+  placementState.currentIndex += 1;
+  renderPlacementQuestion();
+}
+
+function prevPlacementQuestion() {
+  if (!placementState.questions.length || placementState.loading) return;
+  if (placementState.currentIndex <= 0) return;
+
+  placementState.currentIndex -= 1;
+  renderPlacementQuestion();
+}
+
+async function submitPlacementTest() {
+  if (!placementState.questions.length || placementState.submitting) return;
+
+  const total = placementState.questions.length;
+  const answeredCount = Object.keys(placementState.answers).length;
+  const unansweredCount = total - answeredCount;
+
+  if (unansweredCount > 0) {
+    const proceed = window.confirm(`You still have ${unansweredCount} unanswered question(s). Submit anyway?`);
+    if (!proceed) return;
+  }
+
+  placementState.submitting = true;
+  renderPlacementQuestion();
+  setPlacementStatus('Submitting your answers...', 'default');
+
+  try {
+    const endpoint = `${PLACEMENT_API_BASE.replace(/\/$/, '')}/api/v1/placement/grade`;
+    const answers = Object.entries(placementState.answers).map(([question_id, answer]) => ({
+      question_id,
+      answer,
+    }));
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ answers }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Submit API failed (${response.status})`);
+    }
+
+    const payload = await response.json();
+    if (!payload?.ok) {
+      throw new Error('Submit API returned unsuccessful response');
+    }
+
+    setPlacementStatus(
+      `Submitted: ${payload.correct_answers}/${payload.total_questions} correct (${payload.score_percent}%). Estimated band ${payload.estimated_band}. Redirecting to study plan...`,
+      'success',
+    );
+
+    setTimeout(() => {
+      showScreen('studyplan');
+    }, 1400);
+  } catch (error) {
+    console.error('Failed to submit placement test:', error);
+    setPlacementStatus('Submit failed. Please try again in a moment.', 'error');
+  } finally {
+    placementState.submitting = false;
+    renderPlacementQuestion();
+  }
+}
+
 let recActive = false;
 let recInterval;
 
@@ -234,13 +491,6 @@ function showSpeakingResult() {
   `;
 }
 
-function setActiveNavTab() {
-  const page = document.body.dataset.page || 'onboarding';
-  document.querySelectorAll('.nav-tab').forEach((tab) => {
-    tab.classList.toggle('active', tab.dataset.screen === page);
-  });
-}
-
 function ensureWaveKeyframes() {
   if (document.getElementById('wave-keyframes')) return;
   const style = document.createElement('style');
@@ -255,6 +505,6 @@ function ensureWaveKeyframes() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  setActiveNavTab();
   ensureWaveKeyframes();
+  initializePlacementTest();
 });

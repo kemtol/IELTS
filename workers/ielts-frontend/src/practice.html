@@ -12,16 +12,6 @@
 
 <nav class="nav">
   <div class="nav-brand">Band<span>Up</span></div>
-  <div class="nav-tabs" id="navTabs">
-    <button class="nav-tab" data-screen="onboarding" onclick="showScreen('onboarding', this)">Onboarding</button>
-    <button class="nav-tab" data-screen="login" onclick="showScreen('login', this)">Login</button>
-    <button class="nav-tab" data-screen="placement" onclick="showScreen('placement', this)">Placement Test</button>
-    <button class="nav-tab" data-screen="studyplan" onclick="showScreen('studyplan', this)">Study Plan</button>
-    <button class="nav-tab" data-screen="practice" onclick="showScreen('practice', this)">Daily Practice</button>
-    <button class="nav-tab" data-screen="writing" onclick="showScreen('writing', this)">Writing Feedback</button>
-    <button class="nav-tab" data-screen="speaking" onclick="showScreen('speaking', this)">Speaking Feedback</button>
-    <button class="nav-tab" data-screen="dashboard" onclick="showScreen('dashboard', this)">Progress</button>
-  </div>
 </nav>
 
 <main class="main">
@@ -104,7 +94,7 @@
               <span class="badge badge-amber">6.0</span>
             </div>
           </div>
-          <div class="task-item" onclick="showScreen('writing', document.querySelectorAll('.nav-tab')[5])" style="background:var(--cream)">
+          <div class="task-item" onclick="showScreen('writing')" style="background:var(--cream)">
             <div class="task-icon writing">✍️</div>
             <div class="task-info">
               <p class="task-title">Writing Task 2 — Opinion Essay</p>

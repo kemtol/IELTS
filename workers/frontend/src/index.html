@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BandUp — IELTS Prep MVP (Onboarding)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body data-page="onboarding">
+
+<nav class="nav">
+  <div class="nav-brand">Band<span>Up</span></div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab" data-screen="onboarding" onclick="showScreen('onboarding', this)">Onboarding</button>
+    <button class="nav-tab" data-screen="login" onclick="showScreen('login', this)">Login</button>
+    <button class="nav-tab" data-screen="placement" onclick="showScreen('placement', this)">Placement Test</button>
+    <button class="nav-tab" data-screen="studyplan" onclick="showScreen('studyplan', this)">Study Plan</button>
+    <button class="nav-tab" data-screen="practice" onclick="showScreen('practice', this)">Daily Practice</button>
+    <button class="nav-tab" data-screen="writing" onclick="showScreen('writing', this)">Writing Feedback</button>
+    <button class="nav-tab" data-screen="speaking" onclick="showScreen('speaking', this)">Speaking Feedback</button>
+    <button class="nav-tab" data-screen="dashboard" onclick="showScreen('dashboard', this)">Progress</button>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="screen active" id="screen-onboarding">
+    <div style="max-width:520px; margin: 0 auto;">
+      <div class="step-dots mb-32" id="stepDots">
+        <div class="step-dot active"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+        <div class="step-dot"></div>
+      </div>
+
+      <!-- Step 1: Registration -->
+      <div id="onb-step1">
+        <p class="label mb-8">Step 1 of 4</p>
+        <h1 class="display mb-12">Start your<br><em>IELTS journey</em></h1>
+        <p class="color-secondary mb-32" style="font-size:15px;">Create your account to get a personalised study plan powered by AI.</p>
+        <div class="card card-pad">
+          <div class="input-group">
+            <label class="input-label">Full name</label>
+            <input class="input" type="text" placeholder="Ahmad Reza" value="Test Onboarding">
+          </div>
+          <div class="input-group">
+            <label class="input-label">Email address</label>
+            <input class="input" type="email" placeholder="you@example.com" value="test.onboarding+001@example.com">
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label class="input-label">Password</label>
+            <input class="input" type="password" placeholder="Minimum 8 characters" value="Test@12345">
+            <p class="input-hint">Must include uppercase, number, and symbol</p>
+          </div>
+          <div class="sep"></div>
+          <button class="btn btn-primary btn-full" onclick="nextOnbStep(2)">Continue →</button>
+          <div class="divider-text">or</div>
+          <button class="btn btn-outline btn-full" style="font-size:13px">Continue with Google</button>
+        </div>
+        <p class="text-center caption mt-12">Already have an account? <a href="#" onclick="showScreen('login', document.querySelectorAll('.nav-tab')[1])" style="color:var(--navy); font-weight:500;">Sign in</a></p>
+      </div>
+
+      <!-- Step 2: Verification (hidden initially) -->
+      <div id="onb-step2" style="display:none">
+        <p class="label mb-8">Step 2 of 4</p>
+        <h1 class="display-sm mb-12">Verify your email</h1>
+        <p class="color-secondary mb-24">We've sent a 6-digit code to <strong>test.onboarding+001@example.com</strong></p>
+        <div class="card card-pad">
+          <div class="flex gap-8 mb-20" style="justify-content:center">
+            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="4">
+            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="8">
+            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="2">
+            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="9">
+            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="0">
+            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="1">
+          </div>
+          <button class="btn btn-primary btn-full" onclick="nextOnbStep(3)">Verify →</button>
+          <p class="caption text-center mt-12">Didn't receive it? <a href="#" style="color:var(--navy);font-weight:500">Resend code</a> (59s)</p>
+        </div>
+      </div>
+
+      <!-- Step 3: Goals -->
+      <div id="onb-step3" style="display:none">
+        <p class="label mb-8">Step 3 of 4</p>
+        <h1 class="display-sm mb-12">Set your target</h1>
+        <p class="color-secondary mb-24">Tell us your goals so we can build the right plan for you.</p>
+        <div class="card card-pad">
+          <div class="input-group">
+            <label class="input-label">Target IELTS band score</label>
+            <select class="input">
+              <option>5.0 – Modest user</option>
+              <option>5.5 – Modest user</option>
+              <option>6.0 – Competent user</option>
+              <option>6.5 – Competent user</option>
+              <option selected>7.0 – Good user</option>
+              <option>7.5 – Good user</option>
+              <option>8.0 – Very good user</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label class="input-label">Daily study time</label>
+            <div class="flex gap-8">
+              <div class="option-item" onclick="selectDuration(this,'30 mins')" style="flex:1; justify-content:center; font-size:13px">30 mins</div>
+              <div class="option-item selected" onclick="selectDuration(this,'60 mins')" style="flex:1; justify-content:center; font-size:13px">60 mins</div>
+              <div class="option-item" onclick="selectDuration(this,'90 mins')" style="flex:1; justify-content:center; font-size:13px">90 mins</div>
+              <div class="option-item" onclick="selectDuration(this,'120+ mins')" style="flex:1; justify-content:center; font-size:13px">120+ mins</div>
+            </div>
+          </div>
+          <div class="input-group" style="margin-bottom:0">
+            <label class="input-label">Focus skills (select all that apply)</label>
+            <div class="skill-toggle-grid mt-8">
+              <div class="skill-toggle" onclick="toggleSkill(this)">
+                <div class="skill-toggle-icon">📖</div>
+                <div class="skill-toggle-name">Reading</div>
+              </div>
+              <div class="skill-toggle selected" onclick="toggleSkill(this)">
+                <div class="skill-toggle-icon">✍️</div>
+                <div class="skill-toggle-name">Writing</div>
+              </div>
+              <div class="skill-toggle selected" onclick="toggleSkill(this)">
+                <div class="skill-toggle-icon">🎙️</div>
+                <div class="skill-toggle-name">Speaking</div>
+              </div>
+              <div class="skill-toggle" onclick="toggleSkill(this)">
+                <div class="skill-toggle-icon">🎧</div>
+                <div class="skill-toggle-name">Listening</div>
+              </div>
+            </div>
+          </div>
+          <div class="sep"></div>
+          <button class="btn btn-primary btn-full" onclick="nextOnbStep(4)">Continue →</button>
+        </div>
+      </div>
+
+      <!-- Step 4: All done -->
+      <div id="onb-step4" style="display:none">
+        <div class="text-center" style="padding: 32px 0;">
+          <div style="width:72px; height:72px; border-radius:50%; background:var(--teal-pale); display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 20px;">✓</div>
+          <h1 class="display-sm mb-12">You're all set!</h1>
+          <p class="color-secondary mb-28">Your personalised study plan is ready. Let's take a quick placement test to calibrate your starting point.</p>
+          <button class="btn btn-amber" style="font-size:15px; padding:13px 32px" onclick="showScreen('placement', document.querySelectorAll('.nav-tab')[2])">Take Placement Test →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="./index.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BandUp — Placement Test</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body data-page="placement">
+
+<nav class="nav">
+  <div class="nav-brand">Band<span>Up</span></div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab" data-screen="onboarding" onclick="showScreen('onboarding', this)">Onboarding</button>
+    <button class="nav-tab" data-screen="login" onclick="showScreen('login', this)">Login</button>
+    <button class="nav-tab" data-screen="placement" onclick="showScreen('placement', this)">Placement Test</button>
+    <button class="nav-tab" data-screen="studyplan" onclick="showScreen('studyplan', this)">Study Plan</button>
+    <button class="nav-tab" data-screen="practice" onclick="showScreen('practice', this)">Daily Practice</button>
+    <button class="nav-tab" data-screen="writing" onclick="showScreen('writing', this)">Writing Feedback</button>
+    <button class="nav-tab" data-screen="speaking" onclick="showScreen('speaking', this)">Speaking Feedback</button>
+    <button class="nav-tab" data-screen="dashboard" onclick="showScreen('dashboard', this)">Progress</button>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="screen active" id="screen-placement">
+    <div class="two-col">
+      <div>
+        <p class="label mb-8">Initial assessment</p>
+        <h2 class="display-sm mb-12">Placement Test</h2>
+        <p class="color-secondary mb-20" style="font-size:14px">Answer all 10 questions to establish your baseline band score. This helps calibrate your study plan.</p>
+
+        <div class="card card-pad mb-16">
+          <div class="flex justify-between items-center mb-12">
+            <p class="label">Progress</p>
+            <p class="caption">7 / 10</p>
+          </div>
+          <div class="progress-bar"><div class="progress-fill" style="width:70%"></div></div>
+          <div class="flex justify-between mt-8">
+            <p class="caption">7 answered</p>
+            <p class="caption">~5 min left</p>
+          </div>
+        </div>
+
+        <div class="stepper">
+          <div class="step-node done"><div class="step-circle done">✓</div><span class="step-label">Grammar</span></div>
+          <div class="step-node done"><div class="step-circle done">✓</div><span class="step-label">Vocab</span></div>
+          <div class="step-node"><div class="step-circle current">3</div><span class="step-label current">Reading</span></div>
+          <div class="step-node"><div class="step-circle">4</div><span class="step-label">Writing</span></div>
+        </div>
+
+        <div class="card card-pad" style="background:var(--amber-pale); border-color:rgba(212,134,10,0.2)">
+          <p class="label mb-4" style="color:var(--amber)">Time reminder</p>
+          <p class="caption">You have enough time — take each question carefully. The test cannot be paused once started.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="card card-pad">
+          <div class="question-block">
+            <p class="question-num">Question 8 of 10 · Reading Comprehension</p>
+            <div style="background:var(--cream); border-radius:var(--r-sm); padding:14px 16px; margin-bottom:16px; border-left:3px solid var(--amber);">
+              <p style="font-size:13px; color:var(--text-secondary); line-height:1.7"><em>"Despite the rapid expansion of urban centres across Southeast Asia, many rural communities have retained strong cultural identities, partly because infrastructure investment has lagged significantly behind economic growth."</em></p>
+            </div>
+            <p class="question-text">What does the author imply about rural communities in Southeast Asia?</p>
+            <div class="option-list">
+              <div class="option-item" onclick="selectOption(this)">
+                <div class="option-circle">A</div>
+                They have been negatively affected by urbanisation.
+              </div>
+              <div class="option-item" onclick="selectOption(this)">
+                <div class="option-circle">B</div>
+                Economic growth has uniformly benefited all regions.
+              </div>
+              <div class="option-item selected" onclick="selectOption(this)">
+                <div class="option-circle">C</div>
+                Limited infrastructure helped preserve cultural identity.
+              </div>
+              <div class="option-item" onclick="selectOption(this)">
+                <div class="option-circle">D</div>
+                Urban and rural communities share similar identities.
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <button class="btn btn-ghost btn-sm">← Previous</button>
+            <button class="btn btn-primary btn-sm" onclick="showScreen('studyplan', document.querySelectorAll('.nav-tab')[3])">Next question →</button>
+          </div>
+        </div>
+
+        <div class="card card-pad mt-16" style="background:var(--navy); color:white">
+          <div class="flex justify-between items-center mb-12">
+            <p class="label" style="color:rgba(255,255,255,0.5)">Questions answered</p>
+            <span class="badge" style="background:rgba(255,255,255,0.12); color:white; font-size:11px">7 of 10</span>
+          </div>
+          <div class="flex gap-8" style="flex-wrap:wrap">
+            <div style="width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:white">1</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:white">2</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:white">3</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:white">4</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:white">5</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:white">6</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:white">7</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:rgba(255,255,255,0.4)">8</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:rgba(255,255,255,0.4)">9</div>
+            <div style="width:28px;height:28px;border-radius:6px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:rgba(255,255,255,0.4)">10</div>
+          </div>
+          <div class="sep" style="background:rgba(255,255,255,0.1)"></div>
+          <button class="btn" style="background:rgba(255,255,255,0.1);color:white;width:100%;justify-content:center;font-size:13px" onclick="showScreen('studyplan', document.querySelectorAll('.nav-tab')[3])">Submit test (3 unanswered)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="./index.js"></script>
+</body>
+</html>

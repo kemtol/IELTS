@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BandUp — Study Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body data-page="studyplan">
+
+<nav class="nav">
+  <div class="nav-brand">Band<span>Up</span></div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab" data-screen="onboarding" onclick="showScreen('onboarding', this)">Onboarding</button>
+    <button class="nav-tab" data-screen="login" onclick="showScreen('login', this)">Login</button>
+    <button class="nav-tab" data-screen="placement" onclick="showScreen('placement', this)">Placement Test</button>
+    <button class="nav-tab" data-screen="studyplan" onclick="showScreen('studyplan', this)">Study Plan</button>
+    <button class="nav-tab" data-screen="practice" onclick="showScreen('practice', this)">Daily Practice</button>
+    <button class="nav-tab" data-screen="writing" onclick="showScreen('writing', this)">Writing Feedback</button>
+    <button class="nav-tab" data-screen="speaking" onclick="showScreen('speaking', this)">Speaking Feedback</button>
+    <button class="nav-tab" data-screen="dashboard" onclick="showScreen('dashboard', this)">Progress</button>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="screen active" id="screen-studyplan">
+    <div class="two-col">
+      <div>
+        <p class="label mb-8">Your personalised plan</p>
+        <h2 class="display-sm mb-4">Study Plan</h2>
+        <p class="color-secondary mb-20" style="font-size:14px">Based on your baseline 5.5 → target 7.0 with 60 mins/day, Writing & Speaking focus.</p>
+
+        <div class="card card-pad mb-16">
+          <div class="flex justify-between items-center mb-4">
+            <p class="font-medium" style="font-size:14px">Baseline score</p>
+            <span class="badge badge-outline">Placement Test</span>
+          </div>
+          <div class="grid-4" style="grid-template-columns:1fr 1fr; margin-top:12px">
+            <div class="metric-card">
+              <p class="metric-sub">Current band</p>
+              <p class="metric-value">5.5</p>
+            </div>
+            <div class="metric-card">
+              <p class="metric-sub">Target band</p>
+              <p class="metric-value" style="color:var(--amber)">7.0</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-pad mb-16">
+          <p class="font-medium mb-12" style="font-size:14px">Skill breakdown</p>
+          <div class="band-row">
+            <p class="band-name">Writing</p>
+            <div class="band-bar-wrap"><div class="band-fill" style="width:45%; background:var(--coral)"></div></div>
+            <p class="band-score">4.5</p>
+          </div>
+          <div class="band-row">
+            <p class="band-name">Speaking</p>
+            <div class="band-bar-wrap"><div class="band-fill" style="width:55%; background:var(--amber)"></div></div>
+            <p class="band-score">5.5</p>
+          </div>
+          <div class="band-row">
+            <p class="band-name">Reading</p>
+            <div class="band-bar-wrap"><div class="band-fill" style="width:70%; background:var(--teal)"></div></div>
+            <p class="band-score">7.0</p>
+          </div>
+          <div class="band-row" style="margin-bottom:0">
+            <p class="band-name">Listening</p>
+            <div class="band-bar-wrap"><div class="band-fill" style="width:65%; background:var(--navy)"></div></div>
+            <p class="band-score">6.5</p>
+          </div>
+        </div>
+
+        <div class="card card-pad" style="border-color:var(--amber); background:var(--amber-pale)">
+          <p class="font-medium mb-6" style="font-size:13px; color:var(--amber)">AI Insight</p>
+          <p class="caption" style="color:var(--text-primary)">Your writing is your biggest opportunity. We've weighted 40% of your daily tasks toward Task 2 essay practice with structured feedback.</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="overflow:hidden">
+          <div style="padding:20px 24px; border-bottom:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center">
+            <h3 style="font-size:16px; font-weight:500">Week 1 — Foundation</h3>
+            <span class="badge badge-teal">Active</span>
+          </div>
+          <div style="padding:8px 24px">
+            <div class="plan-row">
+              <div class="day-badge">MON</div>
+              <div class="plan-tasks">
+                <span class="plan-chip writing">Writing Task 2 — Opinion Essay</span>
+                <span class="plan-chip speaking">Speaking Part 1 — Intro</span>
+                <span class="plan-chip vocab">Vocabulary: 20 words</span>
+              </div>
+            </div>
+            <div class="plan-row">
+              <div class="day-badge">TUE</div>
+              <div class="plan-tasks">
+                <span class="plan-chip reading">Reading: Skimming technique</span>
+                <span class="plan-chip writing">Writing Task 1 — Graph</span>
+                <span class="plan-chip speaking">Speaking Part 2 — Cue card</span>
+              </div>
+            </div>
+            <div class="plan-row">
+              <div class="day-badge">WED</div>
+              <div class="plan-tasks">
+                <span class="plan-chip writing">Writing Task 2 — Discussion</span>
+                <span class="plan-chip vocab">Vocabulary: 20 words</span>
+                <span class="plan-chip speaking">Speaking pronunciation drill</span>
+              </div>
+            </div>
+            <div class="plan-row">
+              <div class="day-badge">THU</div>
+              <div class="plan-tasks">
+                <span class="plan-chip reading">Reading: True/False/NG</span>
+                <span class="plan-chip speaking">Speaking Part 3 — Discussion</span>
+              </div>
+            </div>
+            <div class="plan-row">
+              <div class="day-badge">FRI</div>
+              <div class="plan-tasks">
+                <span class="plan-chip writing">Writing Task 2 — Argument</span>
+                <span class="plan-chip speaking">Full Speaking Mock</span>
+              </div>
+            </div>
+            <div class="plan-row">
+              <div class="day-badge">SAT</div>
+              <div class="plan-tasks">
+                <span class="plan-chip reading">Reading Full Practice</span>
+                <span class="plan-chip writing">Writing review + corrections</span>
+              </div>
+            </div>
+            <div class="plan-row">
+              <div class="day-badge">SUN</div>
+              <div class="plan-tasks">
+                <span class="plan-chip" style="background:var(--cream-dark); color:var(--text-secondary)">Rest day ✦ Review week's feedback</span>
+              </div>
+            </div>
+          </div>
+          <div style="padding:16px 24px; border-top:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center">
+            <p class="caption">Estimated: 60 min/day · 7 weeks total</p>
+            <button class="btn btn-primary btn-sm" onclick="showScreen('practice', document.querySelectorAll('.nav-tab')[4])">Start today →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="./index.js"></script>
+</body>
+</html>

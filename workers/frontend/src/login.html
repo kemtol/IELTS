@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BandUp — Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./style.css">
+</head>
+<body data-page="login">
+
+<nav class="nav">
+  <div class="nav-brand">Band<span>Up</span></div>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab" data-screen="onboarding" onclick="showScreen('onboarding', this)">Onboarding</button>
+    <button class="nav-tab" data-screen="login" onclick="showScreen('login', this)">Login</button>
+    <button class="nav-tab" data-screen="placement" onclick="showScreen('placement', this)">Placement Test</button>
+    <button class="nav-tab" data-screen="studyplan" onclick="showScreen('studyplan', this)">Study Plan</button>
+    <button class="nav-tab" data-screen="practice" onclick="showScreen('practice', this)">Daily Practice</button>
+    <button class="nav-tab" data-screen="writing" onclick="showScreen('writing', this)">Writing Feedback</button>
+    <button class="nav-tab" data-screen="speaking" onclick="showScreen('speaking', this)">Speaking Feedback</button>
+    <button class="nav-tab" data-screen="dashboard" onclick="showScreen('dashboard', this)">Progress</button>
+  </div>
+</nav>
+
+<main class="main">
+  <div class="screen active" id="screen-login">
+    <div style="max-width:420px; margin: 0 auto;">
+      <div class="mb-32">
+        <h1 class="display mb-10">Welcome<br><em>back</em></h1>
+        <p class="color-secondary">Sign in to continue your preparation.</p>
+      </div>
+      <div class="card card-pad">
+        <div class="input-group">
+          <label class="input-label">Email address</label>
+          <input class="input" type="email" value="test.onboarding+001@example.com">
+        </div>
+        <div class="input-group" style="margin-bottom:0">
+          <div class="flex justify-between items-center mb-8">
+            <label class="input-label" style="margin-bottom:0">Password</label>
+            <a href="#" style="font-size:12px; color:var(--navy)">Forgot password?</a>
+          </div>
+          <input class="input" type="password" value="••••••••••">
+        </div>
+        <div class="sep"></div>
+        <button class="btn btn-primary btn-full" onclick="showScreen('practice', document.querySelectorAll('.nav-tab')[4])">Sign in →</button>
+      </div>
+      <div style="margin-top:24px; padding:16px 20px; background:var(--cream); border-radius:var(--r-md); border:0.5px solid var(--border);">
+        <p class="caption"><span class="font-medium">Session persists</span> — you'll stay signed in across browser refreshes. All your progress data is saved to your account.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="./index.js"></script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BandUp — IELTS Prep MVP (Onboarding)</title>
+<title>BandUp — Onboarding</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./style.css">
@@ -24,7 +24,6 @@
         <div class="step-dot"></div>
       </div>
 
-      <!-- Step 1: Registration -->
       <div id="onb-step1">
         <p class="label mb-8">Step 1 of 4</p>
         <h1 class="display mb-12">Start your<br><em>IELTS journey</em></h1>
@@ -32,45 +31,39 @@
         <div class="card card-pad">
           <div class="input-group">
             <label class="input-label">Full name</label>
-            <input class="input" type="text" placeholder="Ahmad Reza" value="Test Onboarding">
+            <input class="input" id="onbNameInput" type="text" placeholder="Ahmad Reza" value="Test Onboarding">
           </div>
           <div class="input-group">
             <label class="input-label">Email address</label>
-            <input class="input" type="email" placeholder="you@example.com" value="test.onboarding+001@example.com">
+            <input class="input" id="onbEmailInput" type="email" placeholder="you@example.com" value="test.onboarding+001@example.com">
           </div>
           <div class="input-group" style="margin-bottom:0">
             <label class="input-label">Password</label>
-            <input class="input" type="password" placeholder="Minimum 8 characters" value="Test@12345">
+            <input class="input" id="onbPasswordInput" type="password" placeholder="Minimum 8 characters" value="Test@12345">
             <p class="input-hint">Must include uppercase, number, and symbol</p>
           </div>
+          <p class="caption mt-12" id="onbStep1Status"></p>
           <div class="sep"></div>
-          <button class="btn btn-primary btn-full" onclick="nextOnbStep(2)">Continue →</button>
-          <div class="divider-text">or</div>
-          <button class="btn btn-outline btn-full" style="font-size:13px">Continue with Google</button>
+          <button class="btn btn-primary btn-full" id="onbRegisterBtn" onclick="registerOnboarding()">Continue →</button>
         </div>
         <p class="text-center caption mt-12">Already have an account? <a href="#" onclick="showScreen('login')" style="color:var(--navy); font-weight:500;">Sign in</a></p>
       </div>
 
-      <!-- Step 2: Verification (hidden initially) -->
       <div id="onb-step2" style="display:none">
         <p class="label mb-8">Step 2 of 4</p>
         <h1 class="display-sm mb-12">Verify your email</h1>
-        <p class="color-secondary mb-24">We've sent a 6-digit code to <strong>test.onboarding+001@example.com</strong></p>
+        <p class="color-secondary mb-24" id="onbVerifyEmailLabel">We've sent a 6-digit code to your email.</p>
         <div class="card card-pad">
-          <div class="flex gap-8 mb-20" style="justify-content:center">
-            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="4">
-            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="8">
-            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="2">
-            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="9">
-            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="0">
-            <input class="input" style="width:48px;text-align:center;font-size:20px;font-weight:500;padding:8px 4px" maxlength="1" value="1">
+          <div class="input-group" style="margin-bottom:0">
+            <label class="input-label">Verification code</label>
+            <input class="input" id="onbOtpInput" type="text" maxlength="6" placeholder="482901" value="482901" style="text-align:center; font-size:20px; letter-spacing:0.25em;">
           </div>
-          <button class="btn btn-primary btn-full" onclick="nextOnbStep(3)">Verify →</button>
-          <p class="caption text-center mt-12">Didn't receive it? <a href="#" style="color:var(--navy);font-weight:500">Resend code</a> (59s)</p>
+          <p class="caption mt-10" id="onbStep2Status"></p>
+          <button class="btn btn-primary btn-full mt-12" id="onbVerifyBtn" onclick="verifyOnboarding()">Verify →</button>
+          <p class="caption text-center mt-12">Test mode OTP: <strong>482901</strong> · <a href="#" onclick="resendOtp()" style="color:var(--navy);font-weight:500">Resend code</a></p>
         </div>
       </div>
 
-      <!-- Step 3: Goals -->
       <div id="onb-step3" style="display:none">
         <p class="label mb-8">Step 3 of 4</p>
         <h1 class="display-sm mb-12">Set your target</h1>
@@ -78,58 +71,58 @@
         <div class="card card-pad">
           <div class="input-group">
             <label class="input-label">Target IELTS band score</label>
-            <select class="input">
-              <option>5.0 – Modest user</option>
-              <option>5.5 – Modest user</option>
-              <option>6.0 – Competent user</option>
-              <option>6.5 – Competent user</option>
-              <option selected>7.0 – Good user</option>
-              <option>7.5 – Good user</option>
-              <option>8.0 – Very good user</option>
+            <select class="input" id="onbTargetSelect">
+              <option value="5.0">5.0 – Modest user</option>
+              <option value="5.5">5.5 – Modest user</option>
+              <option value="6.0">6.0 – Competent user</option>
+              <option value="6.5">6.5 – Competent user</option>
+              <option value="7.0" selected>7.0 – Good user</option>
+              <option value="7.5">7.5 – Good user</option>
+              <option value="8.0">8.0 – Very good user</option>
             </select>
           </div>
           <div class="input-group">
             <label class="input-label">Daily study time</label>
-            <div class="flex gap-8">
-              <div class="option-item" onclick="selectDuration(this,'30 mins')" style="flex:1; justify-content:center; font-size:13px">30 mins</div>
-              <div class="option-item selected" onclick="selectDuration(this,'60 mins')" style="flex:1; justify-content:center; font-size:13px">60 mins</div>
-              <div class="option-item" onclick="selectDuration(this,'90 mins')" style="flex:1; justify-content:center; font-size:13px">90 mins</div>
-              <div class="option-item" onclick="selectDuration(this,'120+ mins')" style="flex:1; justify-content:center; font-size:13px">120+ mins</div>
+            <div class="flex gap-8" id="onbDurationWrap">
+              <div class="option-item" data-minutes="30" onclick="selectDuration(this)" style="flex:1; justify-content:center; font-size:13px">30 mins</div>
+              <div class="option-item selected" data-minutes="60" onclick="selectDuration(this)" style="flex:1; justify-content:center; font-size:13px">60 mins</div>
+              <div class="option-item" data-minutes="90" onclick="selectDuration(this)" style="flex:1; justify-content:center; font-size:13px">90 mins</div>
+              <div class="option-item" data-minutes="120" onclick="selectDuration(this)" style="flex:1; justify-content:center; font-size:13px">120+ mins</div>
             </div>
           </div>
           <div class="input-group" style="margin-bottom:0">
             <label class="input-label">Focus skills (select all that apply)</label>
-            <div class="skill-toggle-grid mt-8">
-              <div class="skill-toggle" onclick="toggleSkill(this)">
+            <div class="skill-toggle-grid mt-8" id="onbSkillWrap">
+              <div class="skill-toggle" data-skill="Reading" onclick="toggleSkill(this)">
                 <div class="skill-toggle-icon">📖</div>
                 <div class="skill-toggle-name">Reading</div>
               </div>
-              <div class="skill-toggle selected" onclick="toggleSkill(this)">
+              <div class="skill-toggle selected" data-skill="Writing" onclick="toggleSkill(this)">
                 <div class="skill-toggle-icon">✍️</div>
                 <div class="skill-toggle-name">Writing</div>
               </div>
-              <div class="skill-toggle selected" onclick="toggleSkill(this)">
+              <div class="skill-toggle selected" data-skill="Speaking" onclick="toggleSkill(this)">
                 <div class="skill-toggle-icon">🎙️</div>
                 <div class="skill-toggle-name">Speaking</div>
               </div>
-              <div class="skill-toggle" onclick="toggleSkill(this)">
+              <div class="skill-toggle" data-skill="Listening" onclick="toggleSkill(this)">
                 <div class="skill-toggle-icon">🎧</div>
                 <div class="skill-toggle-name">Listening</div>
               </div>
             </div>
           </div>
+          <p class="caption mt-12" id="onbStep3Status"></p>
           <div class="sep"></div>
-          <button class="btn btn-primary btn-full" onclick="nextOnbStep(4)">Continue →</button>
+          <button class="btn btn-primary btn-full" id="onbCompleteBtn" onclick="completeOnboarding()">Continue →</button>
         </div>
       </div>
 
-      <!-- Step 4: All done -->
       <div id="onb-step4" style="display:none">
         <div class="text-center" style="padding: 32px 0;">
           <div style="width:72px; height:72px; border-radius:50%; background:var(--teal-pale); display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 20px;">✓</div>
           <h1 class="display-sm mb-12">You're all set!</h1>
-          <p class="color-secondary mb-28">Your personalised study plan is ready. Let's take a quick placement test to calibrate your starting point.</p>
-          <button class="btn btn-amber" style="font-size:15px; padding:13px 32px" onclick="showScreen('placement')">Take Placement Test →</button>
+          <p class="color-secondary mb-20" id="onbFinalText">Your profile is ready. Next step: take your placement test from dashboard.</p>
+          <button class="btn btn-amber" id="onbToDashboardBtn" style="font-size:15px; padding:13px 32px" onclick="showScreen('dashboard')">Go to Dashboard →</button>
         </div>
       </div>
     </div>

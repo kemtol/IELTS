@@ -12,6 +12,10 @@
 
 <nav class="nav">
   <div class="nav-brand">Band<span>Up</span></div>
+  <div style="margin-left:auto; display:flex; gap:8px;">
+    <button class="btn btn-ghost btn-sm" onclick="showScreen('dashboard')">Dashboard</button>
+    <button class="btn btn-ghost btn-sm" onclick="showScreen('studyplan')">Study Plan</button>
+  </div>
 </nav>
 
 <main class="main">
@@ -20,140 +24,45 @@
       <div>
         <div class="card card-pad mb-16">
           <div class="flex items-center gap-12 mb-16">
-            <div class="avatar">TR</div>
+            <div class="avatar" id="practiceAvatar">TR</div>
             <div>
-              <p class="font-medium" style="font-size:14px">Test Onboarding</p>
-              <p class="caption">Band target: 7.0</p>
+              <p class="font-medium" id="practiceUserName" style="font-size:14px">-</p>
+              <p class="caption">Band target: <span id="practiceTarget">-</span></p>
             </div>
           </div>
           <div class="flex justify-between mb-6">
             <p class="caption">Today's progress</p>
-            <p class="caption font-medium">2 / 3 tasks</p>
+            <p class="caption font-medium" id="practiceProgressText">0 / 0 tasks</p>
           </div>
-          <div class="progress-bar mb-4"><div class="progress-fill teal" style="width:66%"></div></div>
-          <p class="caption color-hint">1 task remaining</p>
+          <div class="progress-bar mb-4"><div class="progress-fill teal" id="practiceProgressFill" style="width:0%"></div></div>
+          <p class="caption color-hint" id="practiceRemainingText">No task loaded</p>
+          <p class="caption mt-10" id="practiceStatus"></p>
         </div>
 
         <div class="card card-pad">
-          <p class="label mb-12">This week</p>
-          <div class="bar-chart mb-8">
-            <div class="bar-col">
-              <div class="bar filled" style="height:55px"></div>
-              <span class="bar-label">Mon</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar filled" style="height:60px"></div>
-              <span class="bar-label">Tue</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar filled" style="height:45px"></div>
-              <span class="bar-label">Wed</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar" style="height:38px"></div>
-              <span class="bar-label">Thu</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar" style="height:10px; background:var(--cream-dark)"></div>
-              <span class="bar-label">Fri</span>
-            </div>
+          <p class="label mb-12">Quick actions</p>
+          <div class="flex gap-8" style="flex-wrap:wrap;">
+            <button class="btn btn-outline btn-sm" onclick="loadDailyPractice()">Refresh tasks</button>
+            <button class="btn btn-outline btn-sm" onclick="showScreen('dashboard')">View progress</button>
           </div>
-          <p class="caption color-hint">3 day streak 🔥</p>
         </div>
       </div>
 
       <div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px">
           <div>
-            <p class="label mb-2">Thursday, today</p>
-            <h2 class="display-sm">Today's Tasks</h2>
+            <p class="label mb-2">Today</p>
+            <h2 class="display-sm">Daily Tasks</h2>
           </div>
-          <span class="badge badge-amber">Week 1 · Day 4</span>
+          <span class="badge badge-amber">MVP Flow</span>
         </div>
 
-        <div class="card" style="overflow:hidden">
-          <div class="task-item">
-            <div class="task-icon reading">📖</div>
-            <div class="task-info">
-              <p class="task-title">Reading: True / False / Not Given</p>
-              <p class="task-meta">Academic passage · ~20 mins</p>
-            </div>
-            <div class="flex flex-col items-end gap-6">
-              <span class="task-status done">Completed ✓</span>
-              <span class="badge badge-teal">7.5</span>
-            </div>
-          </div>
-          <div class="task-item">
-            <div class="task-icon speaking">🎙️</div>
-            <div class="task-info">
-              <p class="task-title">Speaking Part 3 — Discussion</p>
-              <p class="task-meta">Environmental change topic · ~15 mins</p>
-            </div>
-            <div class="flex flex-col items-end gap-6">
-              <span class="task-status done">Completed ✓</span>
-              <span class="badge badge-amber">6.0</span>
-            </div>
-          </div>
-          <div class="task-item" onclick="showScreen('writing')" style="background:var(--cream)">
-            <div class="task-icon writing">✍️</div>
-            <div class="task-info">
-              <p class="task-title">Writing Task 2 — Opinion Essay</p>
-              <p class="task-meta">Technology & society · ~25 mins · 250+ words</p>
-            </div>
-            <div class="flex flex-col items-end gap-6">
-              <span class="task-status pending">In progress →</span>
-              <span class="badge badge-outline">Tap to open</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="card card-pad mt-16" style="border:0.5px dashed var(--border-strong)">
-          <p class="font-medium mb-6" style="font-size:14px">Bonus task available</p>
-          <p class="caption mb-12">You're ahead of pace this week. A listening exercise has been unlocked.</p>
-          <button class="btn btn-outline btn-sm">Start bonus task</button>
-        </div>
+        <div class="card" style="overflow:hidden" id="practiceTaskList"></div>
       </div>
 
       <div>
         <p class="label mb-12">Recent feedback</p>
-        <div class="card" style="overflow:hidden">
-          <div style="padding:16px 20px; border-bottom:0.5px solid var(--border)">
-            <div class="flex justify-between items-center mb-4">
-              <p class="font-medium" style="font-size:13px">Speaking · Part 3</p>
-              <span class="badge badge-amber">6.0</span>
-            </div>
-            <p class="caption">Good vocabulary range, but fluency breaks under complex questions. Work on discourse markers.</p>
-          </div>
-          <div style="padding:16px 20px">
-            <div class="flex justify-between items-center mb-4">
-              <p class="font-medium" style="font-size:13px">Reading · T/F/NG</p>
-              <span class="badge badge-teal">7.5</span>
-            </div>
-            <p class="caption">Strong. You correctly identified all Not Given answers. Speed could still improve by 8–10%.</p>
-          </div>
-        </div>
-
-        <div class="mt-16">
-          <p class="label mb-12">Upcoming tomorrow</p>
-          <div class="card" style="overflow:hidden">
-            <div class="task-item" style="cursor:default">
-              <div class="task-icon writing">✍️</div>
-              <div class="task-info">
-                <p class="task-title" style="font-size:13px">Writing Task 2 — Argument</p>
-                <p class="task-meta">Urban development focus</p>
-              </div>
-              <span class="task-status todo">Tomorrow</span>
-            </div>
-            <div class="task-item" style="cursor:default">
-              <div class="task-icon speaking">🎙️</div>
-              <div class="task-info">
-                <p class="task-title" style="font-size:13px">Speaking Full Mock</p>
-                <p class="task-meta">Parts 1, 2 & 3</p>
-              </div>
-              <span class="task-status todo">Tomorrow</span>
-            </div>
-          </div>
-        </div>
+        <div class="card" style="overflow:hidden" id="practiceRecentFeedback"></div>
       </div>
     </div>
   </div>

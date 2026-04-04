@@ -24,21 +24,23 @@
       <div class="card card-pad">
         <div class="input-group">
           <label class="input-label">Email address</label>
-          <input class="input" type="email" value="test.onboarding+001@example.com">
+          <input class="input" id="loginEmailInput" type="email" value="test.onboarding+001@example.com">
         </div>
         <div class="input-group" style="margin-bottom:0">
           <div class="flex justify-between items-center mb-8">
             <label class="input-label" style="margin-bottom:0">Password</label>
             <a href="#" style="font-size:12px; color:var(--navy)">Forgot password?</a>
           </div>
-          <input class="input" type="password" value="••••••••••">
+          <input class="input" id="loginPasswordInput" type="password" value="Test@12345">
         </div>
+        <p class="caption mt-12" id="loginStatus"></p>
         <div class="sep"></div>
-        <button class="btn btn-primary btn-full" onclick="showScreen('practice')">Sign in →</button>
+        <button class="btn btn-primary btn-full" id="loginSubmitBtn" onclick="loginUser()">Sign in →</button>
       </div>
       <div style="margin-top:24px; padding:16px 20px; background:var(--cream); border-radius:var(--r-md); border:0.5px solid var(--border);">
         <p class="caption"><span class="font-medium">Session persists</span> — you'll stay signed in across browser refreshes. All your progress data is saved to your account.</p>
       </div>
+      <p class="text-center caption mt-12">New here? <a href="#" onclick="showScreen('onboarding')" style="color:var(--navy); font-weight:500;">Create account</a></p>
     </div>
   </div>
 </main>

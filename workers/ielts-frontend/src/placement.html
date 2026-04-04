@@ -12,6 +12,7 @@
 
 <nav class="nav">
   <div class="nav-brand">Band<span>Up</span></div>
+  <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="showScreen('dashboard')">Back to dashboard</button>
 </nav>
 
 <main class="main">
@@ -19,8 +20,9 @@
     <div class="two-col">
       <div>
         <p class="label mb-8">Initial assessment</p>
-        <h2 class="display-sm mb-12">Placement Test</h2>
-        <p class="color-secondary mb-20" style="font-size:14px">Answer all 10 questions to establish your baseline band score. This helps calibrate your study plan.</p>
+        <h2 class="display-sm mb-8">Placement Test</h2>
+        <p class="color-secondary mb-16" style="font-size:14px">Answer all questions to establish your baseline band score.</p>
+        <button class="btn btn-primary btn-sm mb-20" id="placementStartBtn" onclick="startPlacementTest()">Mulai Test</button>
 
         <div class="card card-pad mb-16">
           <div class="flex justify-between items-center mb-12">
@@ -30,31 +32,24 @@
           <div class="progress-bar"><div class="progress-fill" id="placementProgressFill" style="width:0%"></div></div>
           <div class="flex justify-between mt-8">
             <p class="caption" id="placementAnsweredCaption">0 answered</p>
-            <p class="caption">~5 min left</p>
+            <p class="caption">~20 min max</p>
           </div>
         </div>
 
-        <div class="stepper">
-          <div class="step-node done"><div class="step-circle done">✓</div><span class="step-label">Grammar</span></div>
-          <div class="step-node done"><div class="step-circle done">✓</div><span class="step-label">Vocab</span></div>
-          <div class="step-node"><div class="step-circle current">3</div><span class="step-label current">Reading</span></div>
-          <div class="step-node"><div class="step-circle">4</div><span class="step-label">Writing</span></div>
-        </div>
-
         <div class="card card-pad" style="background:var(--amber-pale); border-color:rgba(212,134,10,0.2)">
-          <p class="label mb-4" style="color:var(--amber)">Time reminder</p>
-          <p class="caption">You have enough time — take each question carefully. The test cannot be paused once started.</p>
+          <p class="label mb-4" style="color:var(--amber)">Test reminder</p>
+          <p class="caption" id="placementLeftPanelStatus">Click <strong>Mulai Test</strong> to begin.</p>
         </div>
       </div>
 
       <div>
         <div class="card card-pad">
           <div class="question-block">
-            <p class="question-num" id="placementQuestionMeta">Loading placement questions...</p>
+            <p class="question-num" id="placementQuestionMeta">Question not started</p>
             <div id="placementPassageCard" style="background:var(--cream); border-radius:var(--r-sm); padding:14px 16px; margin-bottom:16px; border-left:3px solid var(--amber); display:none;">
               <p style="font-size:13px; color:var(--text-secondary); line-height:1.7"><em id="placementPassageText"></em></p>
             </div>
-            <p class="question-text" id="placementQuestionText">Please wait while we load your test.</p>
+            <p class="question-text" id="placementQuestionText">Start the test to load your first question.</p>
             <p class="caption mb-12" id="placementStatusText"></p>
             <div class="option-list" id="placementOptionList"></div>
           </div>
@@ -73,6 +68,13 @@
           <div class="flex gap-8" style="flex-wrap:wrap" id="placementQuestionChips"></div>
           <div class="sep" style="background:rgba(255,255,255,0.1)"></div>
           <button class="btn" id="placementSubmitBtn" style="background:rgba(255,255,255,0.1);color:white;width:100%;justify-content:center;font-size:13px" onclick="submitPlacementTest()">Submit test (0 unanswered)</button>
+        </div>
+
+        <div class="card card-pad mt-16" id="placementResultCard" style="display:none">
+          <p class="label mb-8">Placement result</p>
+          <p class="font-medium mb-8" id="placementResultScore" style="font-size:22px; color:var(--navy)">Band 0.0</p>
+          <p class="caption mb-12" id="placementResultSummary"></p>
+          <button class="btn btn-primary btn-full" onclick="showScreen('dashboard')">Back to dashboard →</button>
         </div>
       </div>
     </div>

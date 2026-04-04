@@ -12,6 +12,11 @@
 
 <nav class="nav">
   <div class="nav-brand">Band<span>Up</span></div>
+  <div style="margin-left:auto; display:flex; gap:8px;">
+    <button class="btn btn-ghost btn-sm" onclick="showScreen('practice')">Daily</button>
+    <button class="btn btn-ghost btn-sm" onclick="showScreen('studyplan')">Plan</button>
+    <button class="btn btn-outline btn-sm" onclick="handleLogout()">Logout</button>
+  </div>
 </nav>
 
 <main class="main">
@@ -22,159 +27,80 @@
         <h2 class="display-sm">Dashboard</h2>
       </div>
       <div class="flex gap-8 items-center">
-        <button class="btn btn-ghost btn-sm">This week ▾</button>
-        <div class="avatar">TR</div>
+        <span class="badge badge-outline" id="dashboardTrendBadge">Trend: stable</span>
+        <div class="avatar" id="dashboardAvatar">TR</div>
       </div>
     </div>
 
-    <!-- TOP METRICS -->
+    <p class="caption mb-16" id="dashboardStatus"></p>
+
     <div class="grid-4 mb-24">
       <div class="metric-card">
         <p class="metric-sub">Current band</p>
-        <p class="metric-value">5.8</p>
-        <p class="metric-trend">↑ +0.3 this week</p>
+        <p class="metric-value" id="dashCurrentBand">-</p>
+        <p class="metric-trend" id="dashTrendText">-</p>
       </div>
       <div class="metric-card">
         <p class="metric-sub">Target band</p>
-        <p class="metric-value" style="color:var(--amber)">7.0</p>
-        <p class="metric-trend" style="color:var(--text-hint)">1.2 to go</p>
+        <p class="metric-value" id="dashTargetBand" style="color:var(--amber)">-</p>
+        <p class="metric-trend" id="dashGapText">-</p>
       </div>
       <div class="metric-card">
         <p class="metric-sub">Tasks completed</p>
-        <p class="metric-value">23</p>
-        <p class="metric-trend">↑ +8 vs last week</p>
+        <p class="metric-value" id="dashTasksCompleted">-</p>
+        <p class="metric-trend" id="dashCompletionToday">-</p>
       </div>
       <div class="metric-card">
         <p class="metric-sub">Study streak</p>
-        <p class="metric-value">3 🔥</p>
-        <p class="metric-trend" style="color:var(--text-hint)">Best: 7 days</p>
+        <p class="metric-value" id="dashStudyStreak">-</p>
+        <p class="metric-trend">Consecutive days</p>
       </div>
     </div>
 
     <div class="two-col">
       <div>
-        <div class="card" style="overflow:hidden; margin-bottom:20px">
-          <div style="padding:18px 22px; border-bottom:0.5px solid var(--border)">
-            <h3 style="font-size:15px; font-weight:500">Skill progress</h3>
-          </div>
-          <div style="padding:18px 22px">
-            <div class="band-row">
-              <p class="band-name">Writing</p>
-              <div class="band-bar-wrap">
-                <div class="band-fill" style="width:52%; background:linear-gradient(90deg, var(--coral) 0%, var(--amber) 100%)"></div>
-              </div>
-              <p class="band-score">5.5</p>
-            </div>
-            <p class="caption color-hint mb-16" style="margin-left:80px; font-size:11px">+1.0 from baseline · target 7.0</p>
-            <div class="band-row">
-              <p class="band-name">Speaking</p>
-              <div class="band-bar-wrap">
-                <div class="band-fill" style="width:60%; background:var(--teal)"></div>
-              </div>
-              <p class="band-score">6.0</p>
-            </div>
-            <p class="caption color-hint mb-16" style="margin-left:80px; font-size:11px">+0.5 from baseline · target 7.0</p>
-            <div class="band-row">
-              <p class="band-name">Reading</p>
-              <div class="band-bar-wrap">
-                <div class="band-fill" style="width:72%; background:var(--navy)"></div>
-              </div>
-              <p class="band-score">7.2</p>
-            </div>
-            <p class="caption color-hint" style="margin-left:80px; font-size:11px">+0.2 from baseline · ✓ target met</p>
+        <div class="card card-pad mb-20">
+          <h3 style="font-size:15px; font-weight:500; margin-bottom:14px">Quick actions</h3>
+          <div class="flex gap-8" style="flex-wrap:wrap;">
+            <button class="btn btn-primary btn-sm" id="dashPlacementBtn" onclick="showScreen('placement')">Placement Test</button>
+            <button class="btn btn-outline btn-sm" id="dashStudyPlanBtn" onclick="showScreen('studyplan')">Generate Study Plan</button>
+            <button class="btn btn-outline btn-sm" id="dashPracticeBtn" onclick="showScreen('practice')">Daily Practice</button>
           </div>
         </div>
 
         <div class="card card-pad">
           <h3 style="font-size:15px; font-weight:500; margin-bottom:16px">Weekly activity</h3>
-          <div class="bar-chart" style="height:90px; margin-bottom:8px">
-            <div class="bar-col">
-              <div class="bar filled" style="height:72px"></div>
-              <span class="bar-label">Mon</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar filled" style="height:60px"></div>
-              <span class="bar-label">Tue</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar filled" style="height:80px"></div>
-              <span class="bar-label">Wed</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar" style="height:45px; background:var(--amber-pale)"></div>
-              <span class="bar-label">Thu</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar" style="height:12px; background:var(--cream-dark)"></div>
-              <span class="bar-label">Fri</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar" style="height:12px; background:var(--cream-dark)"></div>
-              <span class="bar-label">Sat</span>
-            </div>
-            <div class="bar-col">
-              <div class="bar" style="height:12px; background:var(--cream-dark)"></div>
-              <span class="bar-label">Sun</span>
-            </div>
-          </div>
-          <p class="caption color-hint">213 min studied this week · avg 53 min/day</p>
+          <div class="bar-chart" style="height:90px; margin-bottom:8px" id="dashWeeklyBars"></div>
+          <p class="caption color-hint" id="dashWeeklySummary">-</p>
         </div>
       </div>
 
       <div>
         <div class="card" style="overflow:hidden; margin-bottom:20px">
-          <div style="padding:18px 22px; border-bottom:0.5px solid var(--border); display:flex; justify-content:space-between; align-items:center">
-            <h3 style="font-size:15px; font-weight:500">Recent feedback</h3>
-            <a href="#" style="font-size:13px; color:var(--navy)">View all</a>
+          <div style="padding:18px 22px; border-bottom:0.5px solid var(--border)">
+            <h3 style="font-size:15px; font-weight:500">Latest scores</h3>
           </div>
-          <div>
-            <div style="padding:16px 22px; border-bottom:0.5px solid var(--border)">
-              <div class="flex justify-between items-center mb-8">
-                <div class="flex gap-8 items-center">
-                  <div class="task-icon writing" style="width:28px;height:28px;font-size:13px">✍️</div>
-                  <p class="font-medium" style="font-size:13px">Writing Task 2</p>
-                </div>
-                <div class="flex gap-6 items-center">
-                  <span class="badge badge-amber">6.0</span>
-                  <p class="caption color-hint">2 days ago</p>
-                </div>
-              </div>
-              <p class="caption">Your argument structure has improved significantly. Focus on varying sentence types and reducing repetitive vocabulary.</p>
+          <div style="padding:16px 22px; border-bottom:0.5px solid var(--border)">
+            <div class="flex justify-between items-center mb-4">
+              <p class="font-medium" style="font-size:13px">Writing</p>
+              <span class="badge badge-amber" id="dashLatestWriting">-</span>
             </div>
-            <div style="padding:16px 22px; border-bottom:0.5px solid var(--border)">
-              <div class="flex justify-between items-center mb-8">
-                <div class="flex gap-8 items-center">
-                  <div class="task-icon speaking" style="width:28px;height:28px;font-size:13px">🎙️</div>
-                  <p class="font-medium" style="font-size:13px">Speaking Part 2</p>
-                </div>
-                <div class="flex gap-6 items-center">
-                  <span class="badge badge-teal">6.5</span>
-                  <p class="caption color-hint">3 days ago</p>
-                </div>
-              </div>
-              <p class="caption">Good use of descriptive language. Work on pronunciation of multisyllabic words and extending answers more naturally.</p>
+            <p class="caption">Most recent writing score from your completed task.</p>
+          </div>
+          <div style="padding:16px 22px">
+            <div class="flex justify-between items-center mb-4">
+              <p class="font-medium" style="font-size:13px">Speaking</p>
+              <span class="badge badge-teal" id="dashLatestSpeaking">-</span>
             </div>
-            <div style="padding:16px 22px">
-              <div class="flex justify-between items-center mb-8">
-                <div class="flex gap-8 items-center">
-                  <div class="task-icon writing" style="width:28px;height:28px;font-size:13px">✍️</div>
-                  <p class="font-medium" style="font-size:13px">Writing Task 1</p>
-                </div>
-                <div class="flex gap-6 items-center">
-                  <span class="badge badge-amber">5.5</span>
-                  <p class="caption color-hint">5 days ago</p>
-                </div>
-              </div>
-              <p class="caption">Graph description was accurate but lacked an overview. Always include a summary of the main trend in paragraph 2.</p>
-            </div>
+            <p class="caption">Most recent speaking score from your completed task.</p>
           </div>
         </div>
 
-        <div class="card card-pad" style="background:var(--navy); color:white">
-          <p class="label mb-6" style="color:rgba(255,255,255,0.4)">AI recommendation</p>
-          <p class="font-medium mb-8">Next focus: Writing cohesion</p>
-          <p style="font-size:13px; color:rgba(255,255,255,0.7); line-height:1.7; margin-bottom:16px">Based on your last 5 writing tasks, your main gap is cohesion and coherence. We've added 2 targeted exercises to tomorrow's plan.</p>
-          <button class="btn" style="background:rgba(255,255,255,0.12);color:white;font-size:13px;padding:8px 16px" onclick="showScreen('practice')">Go to today's plan →</button>
+        <div class="card" style="overflow:hidden">
+          <div style="padding:18px 22px; border-bottom:0.5px solid var(--border)">
+            <h3 style="font-size:15px; font-weight:500">Recent feedback</h3>
+          </div>
+          <div id="dashRecentFeedback"></div>
         </div>
       </div>
     </div>

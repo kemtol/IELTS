@@ -12,6 +12,7 @@
 
 <nav class="nav">
   <div class="nav-brand">Band<span>Up</span></div>
+  <button class="btn btn-ghost btn-sm" style="margin-left:auto" onclick="showScreen('practice')">Back to tasks</button>
 </nav>
 
 <main class="main">
@@ -21,20 +22,13 @@
         <p class="label mb-8">Speaking Part 2</p>
         <h2 class="display-sm mb-4">Cue Card Response</h2>
         <div class="flex gap-8 mb-20">
-          <span class="badge badge-outline">1–2 minutes</span>
+          <span class="badge badge-outline">60–120 seconds</span>
           <span class="badge badge-outline">1 min prep</span>
         </div>
 
         <div style="background:var(--navy); border-radius:var(--r-md); padding:18px 20px; margin-bottom:20px">
           <p class="label mb-8" style="color:rgba(255,255,255,0.4)">Cue card</p>
-          <p style="font-size:14px; color:white; line-height:1.7; margin-bottom:12px">Describe a time when you helped someone.</p>
-          <p style="font-size:12px; color:rgba(255,255,255,0.5)">You should say:</p>
-          <ul style="color:rgba(255,255,255,0.7); font-size:13px; margin-top:6px; padding-left:18px; line-height:2">
-            <li>Who you helped and when</li>
-            <li>What the situation was</li>
-            <li>How you helped them</li>
-            <li>And explain how you felt afterwards</li>
-          </ul>
+          <p id="speakingPromptText" style="font-size:14px; color:white; line-height:1.7; margin-bottom:12px">Describe a time when you helped someone.</p>
         </div>
 
         <div class="card card-pad text-center">
@@ -42,11 +36,11 @@
           <div id="recStatus">
             <button class="rec-btn idle" id="recBtn" onclick="toggleRec()" style="margin: 0 auto 16px; display:flex">🎙️</button>
             <p class="font-medium mb-4" id="recLabel">Tap to start recording</p>
-            <p class="caption color-hint" id="recHint">Make sure your microphone is enabled in your browser</p>
+            <p class="caption color-hint" id="recHint">Browser microphone simulation mode for MVP.</p>
           </div>
           <div id="recTimerWrap" style="display:none">
             <div class="waveform mb-12" id="waveform"></div>
-            <p class="font-medium color-coral mb-2" id="recTimer">01:24</p>
+            <p class="font-medium color-coral mb-2" id="recTimer">00:00</p>
             <p class="caption color-hint">Recording in progress... tap to stop</p>
           </div>
         </div>
@@ -55,14 +49,19 @@
           <div class="flex items-center gap-12 mb-12">
             <button style="width:36px;height:36px;border-radius:50%;background:var(--navy);color:white;border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center">▶</button>
             <div class="flex-col flex" style="flex:1">
-              <div class="progress-bar mb-4"><div class="progress-fill" style="width:0%"></div></div>
+              <div class="progress-bar mb-4"><div class="progress-fill" style="width:100%"></div></div>
               <div class="flex justify-between">
                 <p class="caption">0:00</p>
-                <p class="caption">1:28</p>
+                <p class="caption" id="speakingDurationCaption">0:00</p>
               </div>
             </div>
           </div>
-          <button class="btn btn-amber btn-full" onclick="showSpeakingResult()">Submit for feedback →</button>
+          <div class="input-group">
+            <label class="input-label">Transcript (auto-generated for MVP, editable)</label>
+            <textarea class="writing-area" id="speakingTranscriptInput" style="min-height:120px">I helped a classmate prepare for an interview by practicing speaking questions together and giving feedback on clarity and confidence.</textarea>
+          </div>
+          <p class="caption" id="speakingStatus"></p>
+          <button class="btn btn-amber btn-full mt-12" id="speakingSubmitBtn" onclick="submitSpeakingTask()">Submit for feedback →</button>
         </div>
       </div>
 
@@ -70,34 +69,11 @@
         <div class="card card-pad mb-16" style="text-align:center; padding:40px 28px; border-style:dashed">
           <p style="font-size:28px; margin-bottom:12px">🎙️</p>
           <p class="font-medium mb-4">Ready for feedback</p>
-          <p class="caption">Submit your recording to get an AI band score with feedback on fluency, vocabulary, grammar, and pronunciation.</p>
-        </div>
-        <div class="card card-pad" style="background:var(--cream)">
-          <p class="label mb-8">Speaking assessment criteria</p>
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px">
-            <div style="padding:12px; border-radius:var(--r-sm); border:0.5px solid var(--border); background:white">
-              <p style="font-size:12px; color:var(--text-hint); margin-bottom:4px">Fluency & Coherence</p>
-              <p class="font-medium" style="font-size:13px">25% weight</p>
-            </div>
-            <div style="padding:12px; border-radius:var(--r-sm); border:0.5px solid var(--border); background:white">
-              <p style="font-size:12px; color:var(--text-hint); margin-bottom:4px">Lexical Resource</p>
-              <p class="font-medium" style="font-size:13px">25% weight</p>
-            </div>
-            <div style="padding:12px; border-radius:var(--r-sm); border:0.5px solid var(--border); background:white">
-              <p style="font-size:12px; color:var(--text-hint); margin-bottom:4px">Grammar Range</p>
-              <p class="font-medium" style="font-size:13px">25% weight</p>
-            </div>
-            <div style="padding:12px; border-radius:var(--r-sm); border:0.5px solid var(--border); background:white">
-              <p style="font-size:12px; color:var(--text-hint); margin-bottom:4px">Pronunciation</p>
-              <p class="font-medium" style="font-size:13px">25% weight</p>
-            </div>
-          </div>
+          <p class="caption">Submit your recording to get AI speaking feedback.</p>
         </div>
       </div>
     </div>
   </div>
-
-  <!-- ================ SCREEN: PROGRESS DASHBOARD ================ -->
 </main>
 
 <script src="./index.js"></script>
